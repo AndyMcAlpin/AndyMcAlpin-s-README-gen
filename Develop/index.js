@@ -1,6 +1,7 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const generateREADME = require('./src/README-template.js')
 const { generateMarkdown } = require ('./utils/generateMarkdown.js');
 
 // TODO: Create an array of questions for user input
@@ -93,14 +94,15 @@ const promptInstallation = () => {
 };
 
 const promptUsage = usageData => {
-    if (!usageData.step) {
-        usageData.step = [];
-    }
     console.log(`
     ================
     Add a Usage Step
     ================
     `);
+
+    if (!usageData.steps) {
+        usageData.steps = [];
+    }
         return inquirer.prompt([
             {
                 type: 'input',
@@ -115,6 +117,9 @@ const promptUsage = usageData => {
             },
             {
                 // pull screenshot function
+                type: 'input',
+                name: 'screenshotFilePath',
+                message: 'What is the file path and name of your screenshot? (Please be exact)',
                 when: ({ usageStepScreenshotConfirm }) => {
                     if (usageStepScreenshotConfirm) {
                         return true;
@@ -130,9 +135,9 @@ const promptUsage = usageData => {
                 default: false
             }
         ])
-        .then(usageData => {
-            usageData.step.push(usageData);
-            if (usageData.confirmAnotherUsageStep) {
+        .then(stepData => {
+            usageData.steps.push(stepData);
+            if (stepData.confirmAnotherUsageStep) {
                 return promptUsage(usageData);
             } else {
                 return usageData;
@@ -165,7 +170,116 @@ const promptLicense = () => {
             choices: ['MIT','']
         }
     ])
-}
+};
+
+const promptBadges = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmBadges',
+            message: 'Would you like to add badges?',
+            default: false
+        },
+        {
+            type: 'input',
+            name: 'badges',
+            message: 'Please enter your badges',
+            when: ({ confirmBadges }) => {
+                if (confirmBadges) {
+                    return true;
+                } else {   
+                    return false;
+                }
+            }
+        }
+    ])
+};
+
+const promptFeatures = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmFeatures',
+            message: 'Would you like a features section?',
+            default: false
+        },
+        {
+            type: 'input',
+            name: 'features',
+            message: 'Please describe your features',
+            when: ({ confirmFeatures }) => {
+                if (confirmFeatures) {
+                    return true;
+                } else {   
+                    return false;
+                }
+            }
+        }
+    ])
+};
+
+const promptContribute = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmContribute',
+            message: 'Would you like a how-to contribute section?',
+            default: false
+        },
+        {
+            type: 'list',
+            name: 'contribute',
+            message: 'ADFJKDFKJSDJKFHJKSDFHJFDSJK',
+            choices: [],
+            when: ({ confirmContribute }) => {
+                if (confirmContribute) {
+                    return true;
+                } else {   
+                    return false;
+                }
+            }
+        }
+    ])
+};
+
+const promptTests = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmTests',
+            message: 'Would you like a Tests section?',
+            default: false
+        },
+        {
+            type: 'list',
+            name: 'tests',
+            message: 'ADFJKDFKJSDJKFHJKSDFHJFDSJK',
+            choices: [],
+            when: ({ confirmTests }) => {
+                if (confirmTests) {
+                    return true;
+                } else {   
+                    return false;
+                }
+            }
+        }
+    ])
+};
+
+const promptQuestions = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmQuestions',
+            message: 'Would you like a questions section?',
+            default: true
+        },
+        {
+            // questions question here
+            // add email and github
+        }
+    ])
+};
 // description
 //  sub headings of motivation, why, what problem it solves, and what you learned
 // table of contents
@@ -181,13 +295,34 @@ const promptLicense = () => {
         
     
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+const writeToFile = fileContent => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./README.md', fileContent, err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve({
+                ok: true,
+                message: 'README created!'
+            });
+        });
+    });
+};
 
 // TODO: Create a function to initialize app
-function init() {}
+
 
 // Function call to initialize app
 promptProjectTitle()
     .then(promptDescription)
     .then(promptInstallation)
-
+    .then(promptUsage)
+    .then(promptCredits)
+    .then(promptLicense)
+    .then(promptBadges)
+    .then(promptFeatures)
+    .then(promptContribute)
+    .then(promptTests)
+    .then(promptQuestions)
+    .then(console.log('HOW DO I PULL UP ALL DATA'))
