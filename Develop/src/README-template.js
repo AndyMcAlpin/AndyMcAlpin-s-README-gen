@@ -1,0 +1,5 @@
+const generateREADME = readmeText => {
+    return `
+    # 
+    `
+}
