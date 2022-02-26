@@ -1,18 +1,4 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
-function renderLicenseBadge(license) {}
-
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {}
-
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {}
-
-// TODO: Create a function to generate markdown for README
-module.exports = (data) => {
-  return `# ${data.title}
+# test
 
   ## Description
 
@@ -20,13 +6,13 @@ module.exports = (data) => {
   questions as a guide:
   
   - What was your motivation?
-  ${data.motivation}
+  
   - Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-  ${data.why}
+  
   - What problem does it solve?
-  ${data.problem}
+  
   - What did you learn?
-  ${data.learn}
+  
   
   ## Table of Contents (Optional)
   
@@ -41,7 +27,7 @@ module.exports = (data) => {
   
   What are the steps required to install your project? Provide a step-by-step description of how to 
   get the development environment running.
-  ${data.installInstructions}
+  
   
   ## Usage
   
@@ -68,7 +54,7 @@ module.exports = (data) => {
   The last section of a high-quality README file is the license. This lets other developers know
    what they can and cannot do with your project. If you need help choosing a license, 
    refer to [https://choosealicense.com/](https://choosealicense.com/).
-   ${data.license}
+   
   
   ---
   
@@ -96,7 +82,4 @@ module.exports = (data) => {
   ## Tests
   
   Go the extra mile and write tests for your application. Then provide examples on how to run them here.
-
-`;
-};
 

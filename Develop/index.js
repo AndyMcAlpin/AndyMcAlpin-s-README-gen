@@ -1,16 +1,14 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateREADME = require('./src/README-template.js')
-const { generateMarkdown } = require ('./utils/generateMarkdown.js');
+// const generateREADME = require('./src/README-template.js')
+const  generateMarkdown  = require ('./utils/generateMarkdown.js');
 
 // TODO: Create an array of questions for user input
-const promptProjectTitle = () => {
-    return inquirer.prompt([
-        // project title
+const questions = [
         {
             type: 'input',
-            name: 'project-title',
+            name: 'title',
             message: 'What is your projects title? (Required)',
             validate: nameInput => {
                 if (nameInput) {
@@ -20,12 +18,7 @@ const promptProjectTitle = () => {
                     return false;
                 }
             }
-        }
-    ])
-};
-
-const promptDescription = () => {
-    return inquirer.prompt([
+        },
         {
             type: 'confirm',
             name: 'confirmDescription',
@@ -79,74 +72,42 @@ const promptDescription = () => {
                     return false;
                 }
             }
-        }
-    ])
-};
-
-const promptInstallation = () => {
-    return inquirer.prompt([
+        },
         {
             type: 'input',
             name: 'installInstructions',
             message: 'How do you install this project?'
-        }
-    ])
-};
-
-const promptUsage = usageData => {
-    console.log(`
-    ================
-    Add a Usage Step
-    ================
-    `);
-
-    if (!usageData.steps) {
-        usageData.steps = [];
-    }
-        return inquirer.prompt([
-            {
-                type: 'input',
-                name: 'usageStep',
-                message: 'Add the next usage step information',
-            },
-            {
-                type: 'confirm',
-                name: 'usageStepScreenshotConfirm',
-                message: 'Does this step have a screenshot to include?',
-                default: false
-            },
-            {
-                // pull screenshot function
-                type: 'input',
-                name: 'screenshotFilePath',
-                message: 'What is the file path and name of your screenshot? (Please be exact)',
-                when: ({ usageStepScreenshotConfirm }) => {
-                    if (usageStepScreenshotConfirm) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+        },
+        {
+            type: 'input',
+            name: 'usageStep',
+            message: 'Add the next usage step information',
+        },
+        {
+            type: 'confirm',
+            name: 'usageStepScreenshotConfirm',
+            message: 'Does this step have a screenshot to include?',
+            default: false
+        },
+        {
+            // pull screenshot function
+            type: 'input',
+            name: 'screenshotFilePath',
+            message: 'What is the file path and name of your screenshot? (Please be exact)',
+            when: ({ usageStepScreenshotConfirm }) => {
+                if (usageStepScreenshotConfirm) {
+                    return true;
+                } else {
+                     return false;
                 }
-            },
-            {
-                type: 'confirm',
-                name: 'confirmAnotherUsageStep',
-                message: 'Is there another step to use your project?',
-                default: false
             }
-        ])
-        .then(stepData => {
-            usageData.steps.push(stepData);
-            if (stepData.confirmAnotherUsageStep) {
-                return promptUsage(usageData);
-            } else {
-                return usageData;
-            }
-        });
-};
-
-const promptCredits = () => {
-    return inquirer.prompt([
+        },
+        {
+            type: 'confirm',
+            name: 'confirmAnotherUsageStep',
+            message: 'Is there another step to use your project?',
+            default: false
+        },
         {
             type: 'confirm',
             name: 'confirmCredits',
@@ -154,26 +115,27 @@ const promptCredits = () => {
             default: false
         },
         {
+            type: 'checkbox',
+            name: 'creditsCheck',
+            message: 'Select who needs credit',
+            choices: ['collaborators', 'third-partyAssets', 'tutorials']
+        },
+        {
             type: 'input',
-            name: 'credits',
-            message: 'Please list anyone who helped with this project?'
-        }
-    ])
-};
-
-const promptLicense = () => {
-    return inquirer.prompt([
+            name: 'creditCollab',
+            message: 'Please list anyone who helped with this project',
+        },
+        {
+            type: 'input',
+            name: 'collabGithub',
+            message: 'list the Github account name for your collaborator'
+        },
         {
             type: 'checkbox',
             name: 'license',
             message: 'Which license would you like to use for your project?',
             choices: ['MIT','']
-        }
-    ])
-};
-
-const promptBadges = () => {
-    return inquirer.prompt([
+        },
         {
             type: 'confirm',
             name: 'confirmBadges',
@@ -191,12 +153,7 @@ const promptBadges = () => {
                     return false;
                 }
             }
-        }
-    ])
-};
-
-const promptFeatures = () => {
-    return inquirer.prompt([
+        },
         {
             type: 'confirm',
             name: 'confirmFeatures',
@@ -214,12 +171,7 @@ const promptFeatures = () => {
                     return false;
                 }
             }
-        }
-    ])
-};
-
-const promptContribute = () => {
-    return inquirer.prompt([
+        },
         {
             type: 'confirm',
             name: 'confirmContribute',
@@ -238,12 +190,7 @@ const promptContribute = () => {
                     return false;
                 }
             }
-        }
-    ])
-};
-
-const promptTests = () => {
-    return inquirer.prompt([
+        },
         {
             type: 'confirm',
             name: 'confirmTests',
@@ -254,7 +201,7 @@ const promptTests = () => {
             type: 'list',
             name: 'tests',
             message: 'ADFJKDFKJSDJKFHJKSDFHJFDSJK',
-            choices: [],
+            choices: [1,2,3,4],
             when: ({ confirmTests }) => {
                 if (confirmTests) {
                     return true;
@@ -262,24 +209,19 @@ const promptTests = () => {
                     return false;
                 }
             }
-        }
-    ])
-};
-
-const promptQuestions = () => {
-    return inquirer.prompt([
+        },
         {
             type: 'confirm',
             name: 'confirmQuestions',
             message: 'Would you like a questions section?',
             default: true
         },
-        {
-            // questions question here
-            // add email and github
-        }
-    ])
-};
+        // {
+        //     // questions question here
+        //     // add email and github
+        // }
+    ];
+
 // description
 //  sub headings of motivation, why, what problem it solves, and what you learned
 // table of contents
@@ -294,35 +236,33 @@ const promptQuestions = () => {
 // (optional) questions w/ link to github, email
         
     
-// TODO: Create a function to write README file
-const writeToFile = fileContent => {
-    return new Promise((resolve, reject) => {
-        fs.writeFile('./README.md', fileContent, err => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve({
-                ok: true,
-                message: 'README created!'
-            });
-        });
-    });
-};
+//  TODO: Create a function to write README file
+ const writeToFile = fileContent => {
+     return new Promise((resolve, reject) => {
+         fs.writeFile('./README.md', fileContent, err => {
+             if (err) {
+                 reject(err);
+                 return;
+             }
+             resolve({
+                 ok: true,
+                 message: 'README created!'
+             });
+         });
+     });
+ };
 
 // TODO: Create a function to initialize app
 
 
 // Function call to initialize app
-promptProjectTitle()
-    .then(promptDescription)
-    .then(promptInstallation)
-    .then(promptUsage)
-    .then(promptCredits)
-    .then(promptLicense)
-    .then(promptBadges)
-    .then(promptFeatures)
-    .then(promptContribute)
-    .then(promptTests)
-    .then(promptQuestions)
-    .then(console.log('HOW DO I PULL UP ALL DATA'))
+inquirer.prompt(questions).then((answers) => {
+    // console.log(answers);
+    return generateMarkdown(answers);
+})
+.then(pageREADME => {
+    return writeToFile(pageREADME);
+})
+.catch(err => {
+    console.log(err);
+});
