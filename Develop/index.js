@@ -45,8 +45,8 @@ const questions = [
         },
         {
             type: 'input',
-            name: 'usageStep',
-            message: 'Add the next usage step information',
+            name: 'usage',
+            message: 'Add instructions how to use your project.',
         },
         {
             type: 'confirm',
@@ -74,10 +74,10 @@ const questions = [
             default: false
         },
         {
-            type: 'checkbox',
+            type: 'list',
             name: 'license',
             message: 'Which license would you like to use for your project?',
-            choices: ['MIT','']
+            choices: ['MIT','Apache 2.0', 'ISC', 'GNU GPLv3', 'none']
         },
         {
             type: 'list',
@@ -93,33 +93,19 @@ const questions = [
         },
         {
             type: 'input',
-            name: 'Github',
+            name: 'github',
             message: 'What is your Github account name?'
         },
         {
             type: 'input',
-            name: 'Email',
+            name: 'email',
             message: 'What is your Email Address?'
         }
         
        
-    ];
-
-// description
-//  sub headings of motivation, why, what problem it solves, and what you learned
-// table of contents
-// installation
-// Usage w/ screenshots
-// credits
-// license w/ appropriate badge
-// (optional) Badges
-// (optional) Features
-// (optional) How to contribute
-// (optional) Tests 
-// (optional) questions w/ link to github, email
-        
+    ];       
     
-//  TODO: Create a function to write README file
+//  Create a function to write README file
  const writeToFile = fileContent => {
      return new Promise((resolve, reject) => {
          fs.writeFile('./README.md', fileContent, err => {
@@ -135,10 +121,8 @@ const questions = [
      });
  };
 
-// TODO: Create a function to initialize app
 
-
-// Function call to initialize app
+// Function to initialize app
 inquirer.prompt(questions).then((answers) => {
     // console.log(answers);
     return generateMarkdown(answers);
