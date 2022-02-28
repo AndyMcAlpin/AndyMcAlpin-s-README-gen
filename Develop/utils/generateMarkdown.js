@@ -1,4 +1,11 @@
-// const license = data.license
+function renderScreenshot(image) {
+  if(!image) {
+    return ''
+  } else {
+    return '![Usage Screenshot](./assets/images/'+(image)+')'
+  }
+};
+
 // TODO: Create a function that returns a license badge based on which license is passed in
 // If there is no license, return an empty string
 function renderLicenseBadge(license) {
@@ -32,27 +39,22 @@ function renderLicenseLink(license) {
   }
 };
 
+
 // TODO: Create a function to generate markdown for README
 module.exports = (data) => {
   return `# ${data.title}
   ${renderLicenseBadge(data.license)}
   ## Description
 
-  Provide a short description explaining the what, why, and how of your project. Use the following 
-  questions as a guide:
-  
-  - What was your motivation?
   - ${data.motivation}
-  - Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
+
   - ${data.why}
-  - What problem does it solve?
+
   - ${data.problem}
-  - What did you learn?
+
   - ${data.learn}
   
-  ## Table of Contents (Optional)
-  
-  If your README is long, add a table of contents to make it easy for users to find what they need.
+  ## Table of Contents 
   
   - [Installation](#installation)
   - [Usage](#usage)
@@ -62,30 +64,21 @@ module.exports = (data) => {
   - [Questions](#questions)
   
   ## Installation
-  
-  What are the steps required to install your project? Provide a step-by-step description of how to 
-  get the development environment running.
+
   - ${data.installInstructions}
   
   ## Usage
-  
-  Provide instructions and examples for use. Include screenshots as needed.
-  
-  To add a screenshot, create an assets/images folder in your repository and upload your screenshot
-   to it. Then, using the relative filepath, add it to your README using the following syntax:
-  
-      md
-      ![alt text](assets/images/screenshot.png)
+
+  - ${data.usage}
+
+  - ${renderScreenshot(data.screenshot)}
       
-  
   ## License
-  
 
    - This program is licensed under ${data.license}
    - ${renderLicenseLink(data.license)}
     
-  
-  ## How to Contribute
+  ## Contributing
   
   If you created an application or package and would like other developers to contribute it, you can 
   include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/)
@@ -100,8 +93,11 @@ module.exports = (data) => {
   ## Questions
 
   Contact Information
-  -Github - ${data.github}
+
+  -Github - https://github.com/${data.github}
+
   -Email - ${data.email}
+
   Please Email me with any questions or comments you have!
 `;
 };

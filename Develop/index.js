@@ -50,28 +50,21 @@ const questions = [
         },
         {
             type: 'confirm',
-            name: 'usageStepScreenshotConfirm',
+            name: 'usageScreenshotConfirm',
             message: 'Does this step have a screenshot to include?',
             default: false
         },
         {
-            // pull screenshot function
             type: 'input',
-            name: 'screenshotFilePath',
-            message: 'What is the file path and name of your screenshot? (Please be exact)',
-            when: ({ usageStepScreenshotConfirm }) => {
-                if (usageStepScreenshotConfirm) {
+            name: 'screenshot',
+            message: 'What is the filename of your screenshot in the images folder? (Please be exact)',
+            when: ({ usageScreenshotConfirm }) => {
+                if (usageScreenshotConfirm) {
                     return true;
                 } else {
                      return false;
                 }
             }
-        },
-        {
-            type: 'confirm',
-            name: 'confirmAnotherUsageStep',
-            message: 'Is there another step to use your project?',
-            default: false
         },
         {
             type: 'list',
@@ -129,6 +122,9 @@ inquirer.prompt(questions).then((answers) => {
 })
 .then(pageREADME => {
     return writeToFile(pageREADME);
+})
+.then(writeToFileResponse => {
+    console.log(writeToFileResponse);
 })
 .catch(err => {
     console.log(err);
