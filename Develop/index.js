@@ -73,30 +73,17 @@ const questions = [
             choices: ['MIT','Apache 2.0', 'ISC', 'GNU GPLv3', 'none']
         },
         {
-            type: 'confirm',
-            name: 'contConfirm',
-            message: 'Confirm if you want to write your own contribution, else choose from list',
-            default: false
-        },
-        {
             type: 'list',
             name: 'contribute',
             message: 'How would you like to have people contribute?',
-            choices: ['Contributor Covenant', 'none'],
-            when: ({ contConfirm }) => {
-                if (!contConfirm) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } 
+            choices: ['Contributor Covenant', 'Write my own', 'none']
         },
         {
             type: 'input',
             name: 'ownContribute',
             message: 'Please write out your own contribution guidelines',
-            when: ({ contConfirm }) => {
-                if (contConfirm) {
+            when: ({ contribute }) => {
+                if (contribute == 'Write my own') {
                     return true;
                 } else {
                     return false;

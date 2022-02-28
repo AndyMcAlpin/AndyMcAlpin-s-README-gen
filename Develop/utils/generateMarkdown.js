@@ -39,9 +39,11 @@ function renderLicenseLink(license) {
   }
 };
 
-function renderContributing(contrib) {
+function renderContributing(contrib, own) {
   if (contrib == 'Contributor Covenant') {
     return 'This project uses contributor covenants guidelines [https://www.contributor-covenant.org/version/2/1/code_of_conduct/](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)';
+  } else if (contrib == 'Write my own') {
+    return (own)
   } else {
     return ''
   }
@@ -87,11 +89,10 @@ module.exports = (data) => {
     
   ## Contributing
   
-  - ${renderContributing(data.contribute)}${data.ownContribute}
+  - ${renderContributing(data.contribute, data.ownContribute)}
   
   ## Tests
   
-  Go the extra mile and write tests for your application. Then provide examples on how to run them here.
   - ${data.tests}
 
   ## Questions
