@@ -70,13 +70,13 @@ const questions = [
             type: 'list',
             name: 'license',
             message: 'Which license would you like to use for your project?',
-            choices: ['MIT','Apache 2.0', 'ISC', 'GNU GPLv3', 'none']
+            choices: ['MIT','Apache 2.0', 'ISC', 'GNU GPLv3']
         },
         {
             type: 'list',
             name: 'contribute',
             message: 'How would you like to have people contribute?',
-            choices: ['Contributor Covenant', 'Write my own', 'none']
+            choices: ['Contributor Covenant', 'Write my own',]
         },
         {
             type: 'input',
@@ -93,7 +93,7 @@ const questions = [
         {
             type: 'list',
             name: 'tests',
-            message: 'ADFJKDFKJSDJKFHJKSDFHJFDSJK',
+            message: 'Please write any tests you have for your program',
             choices: [1,2,3,4]
         },
         {
