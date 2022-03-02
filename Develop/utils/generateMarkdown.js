@@ -99,9 +99,9 @@ module.exports = (data) => {
 
   Contact Information
 
-  -Github - https://github.com/${data.github}
+  - Github - https://github.com/${data.github}
 
-  -Email - ${data.email}
+  - Email - ${data.email}
 
   Please Email me with any questions or comments you have!
 `;

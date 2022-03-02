@@ -91,10 +91,9 @@ const questions = [
             }
         },
         {
-            type: 'list',
+            type: 'input',
             name: 'tests',
-            message: 'Please write any tests you have for your program',
-            choices: [1,2,3,4]
+            message: 'Please write any tests you have for your program'
         },
         {
             type: 'input',
